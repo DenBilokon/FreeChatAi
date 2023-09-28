@@ -18,7 +18,7 @@ engine = create_async_engine(settings.sqlalchemy_database_url)
 from src.services.admin_panel.admin_panel import UserAdmin
 
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeChatAI app')
-
+#test
 # підключаємо адмін-панель
 # http://localhost:8001/admin/
 admin = Admin(app, engine)
