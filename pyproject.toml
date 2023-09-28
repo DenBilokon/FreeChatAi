@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "freechatai"
+version = "0.1.0"
+description = ""
+authors = ["Denis Bilokon <greenjuiced@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.103.1"
+sqlalchemy = "^2.0.21"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
