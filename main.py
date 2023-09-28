@@ -15,7 +15,7 @@ engine = create_async_engine(settings.sqlalchemy_database_url)
 
 
 # Створюємо екземпляр FastApi, встановлюємо назву додатка у swagger та відсортуємо роути по методах:
-from src.services.admin_panel.admin_panel import UserAdmin, UserResponseAdmin
+from src.services.admin_panel.admin_panel import UserAdmin
 
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeChatAI app')
 
@@ -23,7 +23,7 @@ app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeC
 # http://localhost:8001/admin/
 admin = Admin(app, engine)
 admin.add_view(UserAdmin)
-admin.add_view(UserResponseAdmin)
+
 
 
 @app.get("/")
