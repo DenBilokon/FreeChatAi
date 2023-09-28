@@ -10,11 +10,11 @@ from src.schemas.user_schemas import UserResponse, UserModel
 from src.services.auth import auth_service
 from src.services.roles import RolesAccess
 
-access_get = RolesAccess([Role.superadmin, Role.admin, Role.moderator, Role.client, Role.master])
-access_create = RolesAccess([Role.superadmin, Role.admin, Role.moderator, Role.client, Role.master])
-access_update = RolesAccess([Role.superadmin, Role.admin, Role.moderator, Role.client, Role.master])
-access_delete = RolesAccess([Role.superadmin, Role.admin])
-access_block = RolesAccess([Role.superadmin, Role.admin])
+access_get = RolesAccess([Role.admin, Role.client])
+access_create = RolesAccess([Role.admin, Role.client])
+access_update = RolesAccess([Role.admin, Role.client])
+access_delete = RolesAccess([Role.admin])
+access_block = RolesAccess([Role.admin])
 
 router = APIRouter(prefix="/users", tags=["Users profile"])
 

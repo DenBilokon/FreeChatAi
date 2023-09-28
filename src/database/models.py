@@ -25,8 +25,6 @@ class User(Base):
     password = Column(String(255), nullable=False)
     name = Column(String(50))
     email = Column(String(250), nullable=False, unique=True)
-    country_id = Column(Integer, ForeignKey("countries.country_id"), nullable=False)
-    city_id = Column(Integer, ForeignKey("cities.city_id"), nullable=False)
     phone = Column(String(255))
     avatar = Column(String(255), nullable=True)
     refresh_token = Column(String(255), nullable=True)
