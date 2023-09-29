@@ -3,6 +3,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 # from fastapi_limiter import FastAPILimiter
 from src.conf.config import settings
@@ -25,6 +26,7 @@ admin = Admin(app, engine)
 admin.add_view(UserAdmin)
 
 templates = Jinja2Templates(directory='templates')
+app.mount('/static', StaticFiles(directory='static'), name='static')
 
 
 @app.get("/", response_class=HTMLResponse)
