@@ -1,6 +1,8 @@
 # import redis.asyncio as redis
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 # from fastapi_limiter import FastAPILimiter
 from src.conf.config import settings
@@ -10,25 +12,24 @@ from src.database.db import create_async_engine
 
 from src.routes import auth, users
 
-
 engine = create_async_engine(settings.sqlalchemy_database_url)
 
-
 # Створюємо екземпляр FastApi, встановлюємо назву додатка у swagger та відсортуємо роути по методах:
-from src.services.admin_panel.admin_panel import UserAdmin, UserResponseAdmin
+from src.services.admin_panel.admin_panel import UserAdmin
 
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeChatAI app')
-
+# test
 # підключаємо адмін-панель
 # http://localhost:8001/admin/
 admin = Admin(app, engine)
 admin.add_view(UserAdmin)
-admin.add_view(UserResponseAdmin)
+
+templates = Jinja2Templates(directory='templates')
 
 
-@app.get("/")
-def root():
-    return {"message": "Welcome to FastAPI!"}
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse('index.html', {'request': request})
 
 
 # @app.on_event("startup")

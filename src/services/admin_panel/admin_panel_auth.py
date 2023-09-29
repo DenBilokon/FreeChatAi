@@ -31,4 +31,5 @@ class AdminAuth(AuthenticationBackend):
 
 
 authentication_backend = AdminAuth(secret_key="...")
-admin = Admin(app=..., authentication_backend=authentication_backend، ...)
+admin = Admin(app=..., authentication_backend=authentication_backend, ...)
+
