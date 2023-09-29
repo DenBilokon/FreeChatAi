@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link rel="shortcut icon" href="/static/img/fastapi_favicon.png">
+    <title>**FreeChatAI**</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">FreeChatAI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/docs" target="_blank">Swagger</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="true" aria-expanded="false"> LIBRARIES </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>
+                        <a class="dropdown-item" href="https://www.sqlalchemy.org/" target="_blank">SQLAlchemy</a>
+                        <a class="dropdown-item" href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+                        <a class="dropdown-item" href="https://bootswatch.com/solar/" target="_blank">Bootswatch</a>
+                        <a class="dropdown-item" href="https://realpython.com/api-integration-in-python/"
+                           target="_blank">REST API</a>
+                        <a class="dropdown-item" href="https://docs.pydantic.dev/latest/" target="_blank">Pydantic</a>
+                        <a class="dropdown-item" href="https://jwt.io/" target="_blank">JWT</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" target="_blank">Separated link</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/form_post">Add Post</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-sm-2" name="q" type="search" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+{% block content %} {% endblock %}
+
+<hr>
+<footer>
+    <div class="container">
+        <div class="social mb-1">
+            <a href="https://github.com/DenBilokon/FreeChatAi.git" target="_blank" rel="noopener noreferre">
+                <img src="https://s.dou.ua/assets/img/github.svg" width="25" height="25"></a>
+        </div>
+        <div class="fs-5 text-center">
+            <span class="big-text" style="font-size: 2em;">X</span> <span class="small-text" style="font-size: 1em;">TEAM &copy; 2023</span>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
