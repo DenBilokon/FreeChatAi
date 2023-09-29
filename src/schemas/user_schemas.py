@@ -10,8 +10,6 @@ class UserModel(BaseModel):
     password: str = Field(min_length=8)
     name: str = Field(min_length=5, max_length=30)
     email: EmailStr
-    country_id: int = Field(1, gt=0)
-    city_id: int = Field(1, gt=0)
     phone: str
     avatar: Optional[str] = Field(None)
 
@@ -22,8 +20,6 @@ class UserResponse(BaseModel):
     password: str = Field(min_length=6)
     name: str = "Oksana"
     email: EmailStr = "oksana@gmail.com"
-    country_id: int
-    city_id: int
     phone: str
     avatar: Optional[str] = Field(None)
 
