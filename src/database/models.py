@@ -21,7 +21,7 @@ class User(Base):
     __tablename__ = "users"
 
     user_id = Column(Integer, primary_key=True)
-    user_role_enum = Column('roles', Enum(Role), default=Role.user)
+    user_role = Column('roles', Enum(Role), default=Role.user)
     password = Column(String(255), nullable=False)
     username = Column(String(50))
     email = Column(String(250), nullable=False, unique=True)

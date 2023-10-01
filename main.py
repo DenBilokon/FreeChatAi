@@ -10,14 +10,12 @@ from src.conf.config import settings
 from sqladmin import Admin
 
 from src.database.db import create_async_engine
-
-from src.routes import auth, users
+from src.services.admin_panel.admin_panel import UserAdmin
+from src.routes import auth, users, pdffile
 
 engine = create_async_engine(settings.sqlalchemy_database_url)
 
 # Створюємо екземпляр FastApi, встановлюємо назву додатка у swagger та відсортуємо роути по методах:
-from src.services.admin_panel.admin_panel import UserAdmin
-
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeChatAI app')
 # test
 # підключаємо адмін-панель
@@ -27,6 +25,10 @@ admin.add_view(UserAdmin)
 
 templates = Jinja2Templates(directory='templates')
 app.mount('/static', StaticFiles(directory='static'), name='static')
+
+app.include_router(auth.router, prefix='/api')
+app.include_router(users.router, prefix='/api')
+app.include_router(pdffile.router)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -40,9 +42,6 @@ async def root(request: Request):
 #     encoding="utf-8", db=0)
 #     await FastAPILimiter.init(r)
 
-app.include_router(auth.router, prefix='/api')
-# app.include_router(users.router, prefix='/api')
-
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', reload=True)
+    uvicorn.run('main:app', port=8080, reload=True)
