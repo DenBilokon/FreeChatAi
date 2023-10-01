@@ -6,7 +6,7 @@ from src.database.models import Role
 
 
 class UserModel(BaseModel):
-    user_role: Role = 'client'
+    user_role: Role = 'user'
     password: str = Field(min_length=8)
     name: str = Field(min_length=5, max_length=30)
     email: EmailStr
@@ -16,7 +16,7 @@ class UserModel(BaseModel):
 
 class UserResponse(BaseModel):
     user_id: int = Field(default_factory=lambda: uuid4().hex)
-    user_role: Role = 'client'
+    user_role: Role = 'user'
     password: str = Field(min_length=6)
     name: str = "Oksana"
     email: EmailStr = "oksana@gmail.com"
