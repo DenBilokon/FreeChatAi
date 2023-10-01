@@ -31,7 +31,7 @@ app.include_router(users.router, prefix='/api')
 app.include_router(pdffile.router)
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse, tags=["Main index.html"])
 async def root(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 

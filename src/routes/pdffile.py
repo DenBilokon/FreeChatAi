@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-router = APIRouter(prefix='/pdffile', tags=['pdffile'])
+router = APIRouter(prefix='/pdffile', tags=['PDFfile'])
 
 
 @router.post("/upload", status_code=status.HTTP_201_CREATED)
