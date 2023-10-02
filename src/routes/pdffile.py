@@ -1,37 +1,19 @@
-from io import BytesIO
 from typing import List
 import logging
 
-from PyPDF2 import PdfReader
-from fastapi import UploadFile, HTTPException, status, APIRouter
+from fastapi import UploadFile, HTTPException, status, APIRouter, File
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.services.templates.get_txt_from_pdf import get_txt_from_pdf
 
 router = APIRouter(prefix='/pdffile', tags=['PDFfile'])
 
 
 @router.post("/upload", status_code=status.HTTP_201_CREATED)
-async def get_txt_from_pdf(file: UploadFile) -> dict:
-
+async def upload_pdf(file: UploadFile = File()):
     try:
-
-        file_name, extension = file.filename.split('.')
-        if extension != 'pdf':
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PDF file can be downloaded.")
-
-        file_content = await file.read()
-        pdf_file = BytesIO(file_content)
-        pdf_reader = PdfReader(pdf_file)
-        text = ''
-
-        for page in range(len(pdf_reader.pages)):
-            text += pdf_reader.pages[page].extract_text()
-
-        with open(f"{file_name}.txt", 'w', encoding="utf-8") as txt:
-            txt.write(text)
-
-        return {'filename': file_name, 'text': text}
-
-    except Exception as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Upload PDFfile")
+        await get_txt_from_pdf(file)
+        return {"success": True}
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found or some other error message")

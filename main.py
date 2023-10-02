@@ -1,7 +1,7 @@
 # import redis.asyncio as redis
 import uvicorn
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File, status
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
@@ -10,8 +10,11 @@ from src.conf.config import settings
 from sqladmin import Admin
 
 from src.database.db import create_async_engine
+from src.routes.pdffile import upload_pdf
 from src.services.admin_panel.admin_panel import UserAdmin
 from src.routes import auth, users, pdffile
+from src.services.question_to_chatGPT import question_to_ai
+from src.services.templates.get_txt_from_pdf import get_txt_from_pdf
 
 engine = create_async_engine(settings.sqlalchemy_database_url)
 
@@ -33,7 +36,29 @@ app.include_router(pdffile.router)
 
 @app.get("/", response_class=HTMLResponse, tags=["Main index.html"])
 async def root(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
+    return templates.TemplateResponse('index.html', {'request': request, "response": None})
+
+
+pdf_text_global = ""
+
+
+@app.post("/upload", status_code=status.HTTP_201_CREATED)
+async def upload_pdf(file: UploadFile = File()):
+    global pdf_text_global
+    try:
+        result = await get_txt_from_pdf(file)
+        pdf_text_global = result['text']
+        return {"success": True}
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found or some other error message")
+
+
+@app.post("/ask")
+async def post_question(request: Request, question: str = Form(...)):
+    global pdf_text_global
+    response = await question_to_ai(question, pdf_text_global)
+    print(response)
+    return JSONResponse(content={"response": response})
 
 
 # @app.on_event("startup")
