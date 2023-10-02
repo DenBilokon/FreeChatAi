@@ -17,6 +17,41 @@
                  height="100">
         </a>
     </div>
+    <a href="/">
+        <img class="blurred-edge" src="https://i.pinimg.com/564x/0e/03/c1/0e03c1a7c0d5712cfa7f925eaf6a78c1.jpg"
+             height="340">
+        <img class="blurred-edge" src="https://i.pinimg.com/564x/29/ca/fb/29cafb374333552c1b5ac0212958a260.jpg"
+             height="340">
+        <img class="blurred-edge" src="https://i.pinimg.com/564x/d7/8d/e2/d78de2753ac08daf03b796e9d1be12ee.jpg"
+             height="340">
+        <img class="blurred-edge" src="https://i.pinimg.com/564x/bc/a6/c1/bca6c179134f0ab9ec99c9d22a24d576.jpg"
+             height="340">
+    </a>
+
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+
+        <form action="/pdffile/upload" enctype="multipart/form-data" method="post" class="col-md-7">
+            <div class="form-group">
+                <label for="formFile" class="form-label mt-4">Upload file</label>
+                <input class="form-control" type="file" id="formFile" name="file">
+            </div>
+            <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+
+        <form action="#" enctype="multipart/form-data" method="post" class="col-md-7 mb-3">
+            <div class="form-group">
+                <label for="textMessage" class="form-label mt-4"></label>
+                <textarea class="form-control" id="textMessage" rows="3" style="height: 71px;"
+                          placeholder="Send a message"></textarea>
+            </div>
+            <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary">Send a message</button>
+            </div>
+        </form>
+
+    </div>
 
 </div>
 
