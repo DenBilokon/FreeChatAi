@@ -1,0 +1,13 @@
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>tracker.py
+===================================================================
+diff --git a/.idea/.name b/.idea/.name
+--- a/.idea/.name	
++++ b/.idea/.name	
+@@ -1,1 +1,1 @@
+-tracker.py
+\ No newline at end of file
++main.py
+\ No newline at end of file
