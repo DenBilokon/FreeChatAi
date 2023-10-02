@@ -10,9 +10,9 @@ from src.schemas.user_schemas import UserResponse, UserModel
 from src.services.auth import auth_service
 from src.services.roles import RolesAccess
 
-access_get = RolesAccess([Role.admin, Role.client])
-access_create = RolesAccess([Role.admin, Role.client])
-access_update = RolesAccess([Role.admin, Role.client])
+access_get = RolesAccess([Role.admin, Role.user])
+access_create = RolesAccess([Role.admin, Role.user])
+access_update = RolesAccess([Role.admin, Role.user])
 access_delete = RolesAccess([Role.admin])
 access_block = RolesAccess([Role.admin])
 
