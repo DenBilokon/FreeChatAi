@@ -6,9 +6,9 @@ from src.database.models import Role
 
 
 class UserModel(BaseModel):
-    user_role: Role = 'client'
+    user_role: Role = 'user'
     password: str = Field(min_length=8)
-    name: str = Field(min_length=5, max_length=30)
+    username: str = Field(min_length=5, max_length=30)
     email: EmailStr
     phone: str
     avatar: Optional[str] = Field(None)
@@ -16,9 +16,9 @@ class UserModel(BaseModel):
 
 class UserResponse(BaseModel):
     user_id: int = Field(default_factory=lambda: uuid4().hex)
-    user_role: Role = 'client'
+    user_role: Role = 'user'
     password: str = Field(min_length=6)
-    name: str = "Oksana"
+    username: str = "Oksana"
     email: EmailStr = "oksana@gmail.com"
     phone: str
     avatar: Optional[str] = Field(None)
@@ -43,7 +43,7 @@ class AdminResponse(UserResponse):
 
 
 class UserUpdate(BaseModel):
-    name: str
+    username: str
     email: EmailStr
 
 
@@ -56,7 +56,7 @@ class UserBlackList(BaseModel):
 
 class UserBlacklistResponse(BaseModel):
     user_id: int = Field(default_factory=lambda: uuid4().hex)
-    name: str = "Oksana"
+    username: str = "Oksana"
     email: EmailStr = "oksana@gmail.com"
     role: Role = "client"
     banned: Optional[bool] = False
