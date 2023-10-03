@@ -11,13 +11,13 @@ from sqladmin import Admin
 
 from src.database.db import create_async_engine
 from src.services.admin_panel.admin_panel import UserAdmin
-from src.routes import auth, users, pdffile
+from src.routes import auth, users, pdffile, chat, chat_history
 
 engine = create_async_engine(settings.sqlalchemy_database_url)
 
 # Створюємо екземпляр FastApi, встановлюємо назву додатка у swagger та відсортуємо роути по методах:
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}, title='FreeChatAI app')
-# test
+
 # підключаємо адмін-панель
 # http://localhost:8001/admin/
 admin = Admin(app, engine)
@@ -28,7 +28,9 @@ app.mount('/static', StaticFiles(directory='static'), name='static')
 
 app.include_router(auth.router, prefix='/api')
 app.include_router(users.router, prefix='/api')
-app.include_router(pdffile.router)
+app.include_router(pdffile.router, prefix='/api')
+app.include_router(chat.router, prefix='/api')
+app.include_router(chat_history.router, prefix='/api')
 
 
 @app.get("/", response_class=HTMLResponse, tags=["Main index.html"])
