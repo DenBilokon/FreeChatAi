@@ -7,7 +7,7 @@ from src.repository import users as repository_users
 from src.schemas.user_schemas import UserModel, UserResponse
 from src.schemas.auth_schemas import TokenModel, RequestEmail
 from src.services.auth import auth_service
-from src.services.email import send_email
+from src.services.email1 import send_email
 from src.conf.messages import AuthMessages
 
 router = APIRouter(prefix='/auth', tags=["auth"])
@@ -25,7 +25,7 @@ async def signup(body: UserModel,
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=AuthMessages.account_already_exists)
     body.password = auth_service.get_password_hash(body.password)
     new_user = await repository_users.create_user(body, db)
-    background_tasks.add_task(send_email, new_user.email, new_user.name, str(request.base_url))
+    background_tasks.add_task(send_email, new_user.email, new_user.username, str(request.base_url))
     return new_user
 
 

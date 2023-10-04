@@ -28,9 +28,12 @@
              height="340">
     </a>
 
+
     <div class="container d-flex flex-column justify-content-center align-items-center">
 
-        <form action="/pdffile/upload" enctype="multipart/form-data" method="post" class="col-md-7">
+        <div id="upload-status" class="alert" role="alert" style="display: none;"></div>
+
+        <form id="upload-form" action="/pdffile/upload" enctype="multipart/form-data" method="post" class="col-md-7">
             <div class="form-group">
                 <label for="formFile" class="form-label mt-4">Upload file</label>
                 <input class="form-control" type="file" id="formFile" name="file">
@@ -40,20 +43,93 @@
             </div>
         </form>
 
-        <form action="#" enctype="multipart/form-data" method="post" class="col-md-7 mb-3">
-            <div class="form-group">
-                <label for="textMessage" class="form-label mt-4"></label>
-                <textarea class="form-control" id="textMessage" rows="3" style="height: 71px;"
-                          placeholder="Send a message"></textarea>
-            </div>
-            <div class="form-group mt-2">
-                <button type="submit" class="btn btn-primary">Send a message</button>
-            </div>
-        </form>
+        <div id="response-div" class="col-md-7 mb-3">
+            <label for="response" class="form-label mt-4">Answer:</label>
+            <textarea class="form-control" id="response" rows="5" readonly>{{ response | default('', true) }}</textarea>
+        </div>
 
+
+        <div id="chat-section" class="col-md-7 mb-3">
+            <form id="ask-form" action="/chat/ask" method="post">
+                <div class="form-group">
+                    <label for="userQuestion" class="form-label mt-4">Your Question:</label>
+                    <textarea class="form-control" id="userQuestion" name="question" rows="3"
+                              placeholder="Type your question here"></textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <button type="submit" class="btn btn-primary">Ask</button>
+                </div>
+            </form>
+            <div id="chat-response" class="mt-3">
+
+            </div>
+        </div>
     </div>
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#upload-form").submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: '/pdffile/upload',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.success) {
+                    $("#upload-form")[0].reset();
+                    $("#upload-status").removeClass("alert-danger").addClass("alert-success").text("File uploaded successfully!").show();
+                } else {
+                    $("#upload-status").removeClass("alert-success").addClass("alert-danger").text("Error uploading file!").show();
+                }
+
+                setTimeout(function() {
+                    $("#upload-status").hide();
+                }, 3000);
+            },
+            error: function() {
+                $("#upload-status").removeClass("alert-success").addClass("alert-danger").text("Error uploading file!").show();
+                setTimeout(function() {
+                    $("#upload-status").hide();
+                }, 3000);
+            }
+        });
+    });
+
+    $("#userQuestion").keydown(function(event) {
+        if (event.keyCode === 13 && !event.shiftKey) {
+            event.preventDefault();
+            $("#ask-form").submit();
+        }
+    });
+
+    $("#ask-form").submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: '/chat/ask',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                if (data && data.response) {
+                    $("#response").val(data.response);
+                } else {
+                    console.error("Unexpected response format:", data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error:", textStatus, errorThrown);
+            }
+        });
+    });
+</script>
 
 
 {% endblock %}
