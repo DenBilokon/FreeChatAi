@@ -9,6 +9,14 @@ from src.database.models import User
 from src.schemas.user_schemas import UserModel
 
 
+async def get_user_by_username(username: str, db: AsyncSession) -> User | None:
+    sq = select(User).filter_by(username=username)
+    result = await db.execute(sq)
+    user = result.scalar_one_or_none()
+    logging.info(user)
+    return user
+
+
 async def get_user_by_email(email: str, db: AsyncSession) -> User | None:
     sq = select(User).filter_by(email=email)
     result = await db.execute(sq)
