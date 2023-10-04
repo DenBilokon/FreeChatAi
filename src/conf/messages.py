@@ -15,3 +15,8 @@ class AuthMessages:
 
 class RolesMessages:
     operation_forbidden = "Operation forbidden"
+
+
+class ChatMessages:
+    CHAT_NOT_FOUND = "Chat not found"
+    NOT_FOUND = "Not Found"

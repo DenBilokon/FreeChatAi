@@ -27,8 +27,8 @@ chromadb = "^0.4.13"
 tiktoken = "^0.5.1"
 docx2txt = "^0.8"
 itsdangerous = "^2.1.2"
-
-
+pypdf2 = "^3.0.1"
+streamlit = "^1.27.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -50,7 +50,7 @@
 
 
         <div id="chat-section" class="col-md-7 mb-3">
-            <form id="ask-form" action="/chat/ask" method="post">
+            <form id="ask-form" action="/chats/ask" method="post">
                 <div class="form-group">
                     <label for="userQuestion" class="form-label mt-4">Your Question:</label>
                     <textarea class="form-control" id="userQuestion" name="question" rows="3"
@@ -113,7 +113,7 @@
         var formData = $(this).serialize();
 
         $.ajax({
-            url: '/chat/ask',
+            url: '/chats/ask',
             type: 'POST',
             data: formData,
             dataType: 'json',
