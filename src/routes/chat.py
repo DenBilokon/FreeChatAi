@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Depends, status, Query
+from fastapi import APIRouter, HTTPException, Depends, status, Query, Request, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.conf.messages import ChatMessages
@@ -10,12 +10,25 @@ from src.repository import chats as repository_chats
 from src.schemas.chat_schemas import ChatBase, ChatModel
 from src.services.auth import auth_service
 from src.services.roles import RolesAccess
+from src.services.vector_doc_ai import vector_func
 
 router = APIRouter(prefix='/chats', tags=["chats"])
 
 allowed_get_chats = RolesAccess([Role.admin, Role.user])  # noqa
 allowed_add_chats = RolesAccess([Role.admin, Role.user])  # noqa
 allowed_delete_chats = RolesAccess([Role.admin, Role.user])  # noqa
+
+
+@router.post("/ask", status_code=status.HTTP_201_CREATED)
+async def post_question(request: Request, question: str = Form(...)):
+    path_to_file = request.session.get("current_path_document")
+    print(path_to_file)
+
+    if not path_to_file:
+        raise HTTPException(status_code=400, detail="Error path_to_file.")
+    response = await vector_func(path_to_file, question)
+    # print(response)
+    return {"response": response}
 
 
 @router.post("/", response_model=ChatModel, status_code=status.HTTP_201_CREATED,
@@ -54,3 +67,4 @@ async def delete_chat(chat_id: int, db: AsyncSession = Depends(get_db),
     if deleted_chat is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=ChatMessages.CHAT_NOT_FOUND)
     return deleted_chat
+

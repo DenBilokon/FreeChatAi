@@ -1,0 +1,254 @@
+Index: alembic.ini
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># A generic, single database configuration.\r\n\r\n[alembic]\r\n# path to migration scripts\r\nscript_location = migrations\r\n\r\n# template used to generate migration file names; The default value is %%(rev)s_%%(slug)s\r\n# Uncomment the line below if you want the files to be prepended with date and time\r\n# see https://alembic.sqlalchemy.org/en/latest/tutorial.html#editing-the-ini-file\r\n# for all available tokens\r\n# file_template = %%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d%%(minute).2d-%%(rev)s_%%(slug)s\r\n\r\n# sys.path path, will be prepended to sys.path if present.\r\n# defaults to the current working directory.\r\nprepend_sys_path = .\r\n\r\n# timezone to use when rendering the date within the migration file\r\n# as well as the filename.\r\n# If specified, requires the python-dateutil library that can be\r\n# installed by adding `alembic[tz]` to the pip requirements\r\n# string value is passed to dateutil.tz.gettz()\r\n# leave blank for localtime\r\n# timezone =\r\n\r\n# max length of characters to apply to the\r\n# \"slug\" field\r\n# truncate_slug_length = 40\r\n\r\n# set to 'true' to run the environment during\r\n# the 'revision' command, regardless of autogenerate\r\n# revision_environment = false\r\n\r\n# set to 'true' to allow .pyc and .pyo files without\r\n# a source .py file to be detected as revisions in the\r\n# versions/ directory\r\n# sourceless = false\r\n\r\n# version location specification; This defaults\r\n# to migrations/versions.  When using multiple version\r\n# directories, initial revisions must be specified with --version-path.\r\n# The path separator used here should be the separator specified by \"version_path_separator\" below.\r\n# version_locations = %(here)s/bar:%(here)s/bat:migrations/versions\r\n\r\n# version path separator; As mentioned above, this is the character used to split\r\n# version_locations. The default within new alembic.ini files is \"os\", which uses os.pathsep.\r\n# If this key is omitted entirely, it falls back to the legacy behavior of splitting on spaces and/or commas.\r\n# Valid values for version_path_separator are:\r\n#\r\n# version_path_separator = :\r\n# version_path_separator = ;\r\n# version_path_separator = space\r\nversion_path_separator = os  # Use os.pathsep. Default configuration used for new projects.\r\n\r\n# set to 'true' to search source files recursively\r\n# in each \"version_locations\" directory\r\n# new in Alembic version 1.10\r\n# recursive_version_locations = false\r\n\r\n# the output encoding used when revision files\r\n# are written from script.py.mako\r\n# output_encoding = utf-8\r\n\r\nsqlalchemy.url = driver://user:pass@localhost/dbname\r\n\r\n\r\n[post_write_hooks]\r\n# post_write_hooks defines scripts or Python functions that are run\r\n# on newly generated revision scripts.  See the documentation for further\r\n# detail and examples\r\n\r\n# format using \"black\" - use the console_scripts runner, against the \"black\" entrypoint\r\n# hooks = black\r\n# black.type = console_scripts\r\n# black.entrypoint = black\r\n# black.options = -l 79 REVISION_SCRIPT_FILENAME\r\n\r\n# lint with attempts to fix using \"ruff\" - use the exec runner, execute a binary\r\n# hooks = ruff\r\n# ruff.type = exec\r\n# ruff.executable = %(here)s/.venv/bin/ruff\r\n# ruff.options = --fix REVISION_SCRIPT_FILENAME\r\n\r\n# Logging configuration\r\n[loggers]\r\nkeys = root,sqlalchemy,alembic\r\n\r\n[handlers]\r\nkeys = console\r\n\r\n[formatters]\r\nkeys = generic\r\n\r\n[logger_root]\r\nlevel = WARN\r\nhandlers = console\r\nqualname =\r\n\r\n[logger_sqlalchemy]\r\nlevel = WARN\r\nhandlers =\r\nqualname = sqlalchemy.engine\r\n\r\n[logger_alembic]\r\nlevel = INFO\r\nhandlers =\r\nqualname = alembic\r\n\r\n[handler_console]\r\nclass = StreamHandler\r\nargs = (sys.stderr,)\r\nlevel = NOTSET\r\nformatter = generic\r\n\r\n[formatter_generic]\r\nformat = %(levelname)-5.5s [%(name)s] %(message)s\r\ndatefmt = %H:%M:%S
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/alembic.ini b/alembic.ini
+--- a/alembic.ini	
++++ b/alembic.ini	
+@@ -113,4 +113,4 @@
+ 
+ [formatter_generic]
+ format = %(levelname)-5.5s [%(name)s] %(message)s
+-datefmt = %H:%M:%S
+\ No newline at end of file
++datefmt = %H:%M:%S
+Index: migrations/versions/931ef5f12217_init.py
+===================================================================
+diff --git a/migrations/versions/931ef5f12217_init.py b/migrations/versions/931ef5f12217_init.py
+deleted file mode 100644
+--- a/migrations/versions/931ef5f12217_init.py	
++++ /dev/null	
+@@ -1,56 +0,0 @@
+-"""'Init'
+-
+-Revision ID: 931ef5f12217
+-Revises: 
+-Create Date: 2023-09-28 21:35:01.534093
+-
+-"""
+-from typing import Sequence, Union
+-
+-from alembic import op
+-import sqlalchemy as sa
+-
+-
+-# revision identifiers, used by Alembic.
+-revision: str = '931ef5f12217'
+-down_revision: Union[str, None] = None
+-branch_labels: Union[str, Sequence[str], None] = None
+-depends_on: Union[str, Sequence[str], None] = None
+-
+-
+-def upgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.create_table('users',
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('role', sa.Enum('client', 'admin', name='role'), nullable=True),
+-    sa.Column('password', sa.String(length=255), nullable=False),
+-    sa.Column('name', sa.String(length=50), nullable=True),
+-    sa.Column('email', sa.String(length=250), nullable=False),
+-    sa.Column('phone', sa.String(length=255), nullable=True),
+-    sa.Column('avatar', sa.String(length=255), nullable=True),
+-    sa.Column('refresh_token', sa.String(length=255), nullable=True),
+-    sa.Column('confirmed', sa.Boolean(), nullable=True),
+-    sa.Column('banned', sa.Boolean(), nullable=True),
+-    sa.Column('created_at', sa.DateTime(), nullable=True),
+-    sa.Column('updated_at', sa.DateTime(), nullable=True),
+-    sa.PrimaryKeyConstraint('user_id'),
+-    sa.UniqueConstraint('email')
+-    )
+-    op.create_table('admin',
+-    sa.Column('admin_id', sa.Integer(), nullable=False),
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('is_active', sa.Boolean(), nullable=True),
+-    sa.Column('last_visit', sa.DateTime(), nullable=True),
+-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+-    sa.PrimaryKeyConstraint('admin_id')
+-    )
+-    op.create_index(op.f('ix_admin_admin_id'), 'admin', ['admin_id'], unique=False)
+-    # ### end Alembic commands ###
+-
+-
+-def downgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.drop_index(op.f('ix_admin_admin_id'), table_name='admin')
+-    op.drop_table('admin')
+-    op.drop_table('users')
+-    # ### end Alembic commands ###
+Index: migrations/README
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/migrations/README b/migrations/README
+deleted file mode 100644
+--- a/migrations/README	
++++ /dev/null	
+@@ -1,1 +0,0 @@
+-Generic single-database configuration.
+\ No newline at end of file
+Index: migrations/script.py.mako
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/migrations/script.py.mako b/migrations/script.py.mako
+deleted file mode 100644
+--- a/migrations/script.py.mako	
++++ /dev/null	
+@@ -1,30 +0,0 @@
+-"""${message}
+-
+-Revision ID: ${up_revision}
+-Revises: ${down_revision | comma,n}
+-Create Date: ${create_date}
+-
+-"""
+-
+-from typing import Sequence, Union
+-
+-
+-from alembic import op
+-import sqlalchemy as sa
+-${imports if imports else ""}
+-
+-# revision identifiers, used by Alembic.
+-
+-revision: str = ${repr(up_revision)}
+-down_revision: Union[str, None] = ${repr(down_revision)}
+-branch_labels: Union[str, Sequence[str], None] = ${repr(branch_labels)}
+-depends_on: Union[str, Sequence[str], None] = ${repr(depends_on)}
+-
+-
+-
+-def upgrade() -> None:
+-    ${upgrades if upgrades else "pass"}
+-
+-
+-def downgrade() -> None:
+-    ${downgrades if downgrades else "pass"}
+Index: migrations/versions/1c4aad89d642_init.py
+===================================================================
+diff --git a/migrations/versions/1c4aad89d642_init.py b/migrations/versions/1c4aad89d642_init.py
+deleted file mode 100644
+--- a/migrations/versions/1c4aad89d642_init.py	
++++ /dev/null	
+@@ -1,54 +0,0 @@
+-"""'Init'
+-
+-Revision ID: 1c4aad89d642
+-Revises: 
+-Create Date: 2023-09-28 19:34:24.945508
+-
+-"""
+-from alembic import op
+-import sqlalchemy as sa
+-
+-
+-# revision identifiers, used by Alembic.
+-revision = '1c4aad89d642'
+-down_revision = None
+-branch_labels = None
+-depends_on = None
+-
+-
+-def upgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.create_table('users',
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('role', sa.Enum('client', 'admin', name='role'), nullable=True),
+-    sa.Column('password', sa.String(length=255), nullable=False),
+-    sa.Column('name', sa.String(length=50), nullable=True),
+-    sa.Column('email', sa.String(length=250), nullable=False),
+-    sa.Column('phone', sa.String(length=255), nullable=True),
+-    sa.Column('avatar', sa.String(length=255), nullable=True),
+-    sa.Column('refresh_token', sa.String(length=255), nullable=True),
+-    sa.Column('confirmed', sa.Boolean(), nullable=True),
+-    sa.Column('banned', sa.Boolean(), nullable=True),
+-    sa.Column('created_at', sa.DateTime(), nullable=True),
+-    sa.Column('updated_at', sa.DateTime(), nullable=True),
+-    sa.PrimaryKeyConstraint('user_id'),
+-    sa.UniqueConstraint('email')
+-    )
+-    op.create_table('admin',
+-    sa.Column('admin_id', sa.Integer(), nullable=False),
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('is_active', sa.Boolean(), nullable=True),
+-    sa.Column('last_visit', sa.DateTime(), nullable=True),
+-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+-    sa.PrimaryKeyConstraint('admin_id')
+-    )
+-    op.create_index(op.f('ix_admin_admin_id'), 'admin', ['admin_id'], unique=False)
+-    # ### end Alembic commands ###
+-
+-
+-def downgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.drop_index(op.f('ix_admin_admin_id'), table_name='admin')
+-    op.drop_table('admin')
+-    op.drop_table('users')
+-    # ### end Alembic commands ###
+Index: migrations/versions/6f9feb2a2afd_init.py
+===================================================================
+diff --git a/migrations/versions/6f9feb2a2afd_init.py b/migrations/versions/6f9feb2a2afd_init.py
+deleted file mode 100644
+--- a/migrations/versions/6f9feb2a2afd_init.py	
++++ /dev/null	
+@@ -1,54 +0,0 @@
+-"""Init
+-
+-Revision ID: 6f9feb2a2afd
+-Revises: 
+-Create Date: 2023-09-28 22:13:33.195077
+-
+-"""
+-from alembic import op
+-import sqlalchemy as sa
+-
+-
+-# revision identifiers, used by Alembic.
+-revision = '6f9feb2a2afd'
+-down_revision = None
+-branch_labels = None
+-depends_on = None
+-
+-
+-def upgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.create_table('users',
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('role', sa.Enum('client', 'admin', name='role'), nullable=True),
+-    sa.Column('password', sa.String(length=255), nullable=False),
+-    sa.Column('name', sa.String(length=50), nullable=True),
+-    sa.Column('email', sa.String(length=250), nullable=False),
+-    sa.Column('phone', sa.String(length=255), nullable=True),
+-    sa.Column('avatar', sa.String(length=255), nullable=True),
+-    sa.Column('refresh_token', sa.String(length=255), nullable=True),
+-    sa.Column('confirmed', sa.Boolean(), nullable=True),
+-    sa.Column('banned', sa.Boolean(), nullable=True),
+-    sa.Column('created_at', sa.DateTime(), nullable=True),
+-    sa.Column('updated_at', sa.DateTime(), nullable=True),
+-    sa.PrimaryKeyConstraint('user_id'),
+-    sa.UniqueConstraint('email')
+-    )
+-    op.create_table('admin',
+-    sa.Column('admin_id', sa.Integer(), nullable=False),
+-    sa.Column('user_id', sa.Integer(), nullable=False),
+-    sa.Column('is_active', sa.Boolean(), nullable=True),
+-    sa.Column('last_visit', sa.DateTime(), nullable=True),
+-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+-    sa.PrimaryKeyConstraint('admin_id')
+-    )
+-    op.create_index(op.f('ix_admin_admin_id'), 'admin', ['admin_id'], unique=False)
+-    # ### end Alembic commands ###
+-
+-
+-def downgrade() -> None:
+-    # ### commands auto generated by Alembic - please adjust! ###
+-    op.drop_index(op.f('ix_admin_admin_id'), table_name='admin')
+-    op.drop_table('admin')
+-    op.drop_table('users')
+-    # ### end Alembic commands ###
