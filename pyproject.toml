@@ -20,7 +20,15 @@ passlib = "^1.7.4"
 fastapi-mail = "^1.4.1"
 python-multipart = "^0.0.6"
 bcrypt = "^4.0.1"
-
+langchain = "^0.0.306"
+openai = "^0.28.1"
+pypdf = "^3.16.2"
+chromadb = "^0.4.13"
+tiktoken = "^0.5.1"
+docx2txt = "^0.8"
+itsdangerous = "^2.1.2"
+pypdf2 = "^3.0.1"
+streamlit = "^1.27.1"
 
 [build-system]
 requires = ["poetry-core"]

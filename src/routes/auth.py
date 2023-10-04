@@ -1,17 +1,25 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Security, BackgroundTasks, Request
 from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.templating import Jinja2Templates
 
 from src.database.db import get_db
 from src.repository import users as repository_users
 from src.schemas.user_schemas import UserModel, UserResponse
 from src.schemas.auth_schemas import TokenModel, RequestEmail
 from src.services.auth import auth_service
-from src.services.email import send_email
+from src.services.email1 import send_email
 from src.conf.messages import AuthMessages
+
+templates = Jinja2Templates(directory='templates')
 
 router = APIRouter(prefix='/auth', tags=["auth"])
 security = HTTPBearer()
+
+
+@router.get("/signup")
+async def signup_form(request: Request):
+    return templates.TemplateResponse('signup.html', {'request': request})
 
 
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
@@ -25,14 +33,19 @@ async def signup(body: UserModel,
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=AuthMessages.account_already_exists)
     body.password = auth_service.get_password_hash(body.password)
     new_user = await repository_users.create_user(body, db)
-    background_tasks.add_task(send_email, new_user.email, new_user.name, str(request.base_url))
+    background_tasks.add_task(send_email, new_user.email, new_user.username, str(request.base_url))
     return new_user
+
+
+@router.get("/login")
+async def login_form(request: Request):
+    return templates.TemplateResponse('login.html', {'request': request})
 
 
 @router.post("/login", response_model=TokenModel)
 async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
 
-    user = await repository_users.get_user_by_email(body.username, db)
+    user = await repository_users.get_user_by_username(body.username, db)
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=AuthMessages.invalid_email)
     if not user.confirmed:

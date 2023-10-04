@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     cloudinary_name: str = "cloudinary_name"
     cloudinary_api_key: str = "1234"
     cloudinary_api_secret: str = "213213"
+    openai_api_key: str = 'key'
+
+    openai_key: str = "openai key"
 
     model_config = ConfigDict(extra='ignore', env_file=".env", env_file_encoding="utf-8")
 
