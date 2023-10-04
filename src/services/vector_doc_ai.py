@@ -6,7 +6,7 @@ from pathlib import Path
 from langchain.chains import RetrievalQA
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.llms import OpenAIChat
+from langchain.chat_models import ChatOpenAI
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma
 
@@ -34,7 +34,7 @@ async def vector_func(path_file, question):
     vectordb.persist()
 
     qa_chain = RetrievalQA.from_chain_type(
-        llm=OpenAIChat(),
+        llm=ChatOpenAI(model='gpt-3.5-turbo'),
         retriever=vectordb.as_retriever(search_kwargs={'k': 7}),
         return_source_documents=True
     )
