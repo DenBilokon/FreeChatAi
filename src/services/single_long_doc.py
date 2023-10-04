@@ -1,82 +1,66 @@
-import os
-from pathlib import Path
-
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import Chroma
+from fastapi import HTTPException, status
+from typing import List
+from langchain.chains import ConversationalRetrievalChain
+from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.chains import RetrievalQA
-from langchain.llms import OpenAI
+from langchain.memory import ConversationBufferMemory
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.vectorstores import FAISS
+from sqlalchemy.orm import Session
+
+from src.conf import messages
+from src.database.models import User
+from src.repository.chats import get_chat_by_id
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-from src.conf.config import settings
+async def get_context(chat_id: int, db: Session, user: User) -> List:
 
-BASE_DIR = Path(__file__).parent.parent.resolve().parent
-filename = 'stepik-certificate(2).pdf'
+    chat = await get_chat_by_id(chat_id, db, user)
+    context = chat.file_url
+    if context is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.NOT_FOUND)
 
-path_to_file = str(BASE_DIR / "uploaded_files" / filename)
+    with open(context, "r", encoding="utf-8") as file:
+        text = file.read()
 
+    text_splitter = CharacterTextSplitter(
+        separator="\n",
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len
+    )
+    chunks = text_splitter.split_text(text)
 
-print(path_to_file)
-
-# loader = PyPDFLoader(path_to_file)
-# documents = loader.load()
-# print(type(documents))
-#
-# # we split the data into chunks of 1,000 characters, with an overlap
-# # of 200 characters between the chunks, which helps to give better results
-# # and contain the context of the information between chunks
-# text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-# documents = text_splitter.split_documents(documents)
-# print(type(documents))
-# print(documents)
-# # we create our vectorDB, using the OpenAIEmbeddings tranformer to create
-# # embeddings from our text chunks. We set all the db information to be stored
-# # inside the ./data directory, so it doesn't clutter up our source files
-# vectordb = Chroma.from_documents(
-#   documents,
-#   embedding=OpenAIEmbeddings(),
-#   persist_directory='./data'
-# )
-# vectordb.persist()
-#
-#
-# qa_chain = RetrievalQA.from_chain_type(
-#     llm=OpenAI(),
-#     retriever=vectordb.as_retriever(search_kwargs={'k': 7}),
-#     return_source_documents=True
-# )
-# while True:
-#     question = input(f'>>> ')
-#     # we can now execute queries against our Q&A chain
-#     result = qa_chain({'query': question})
-#     # print(result['result'])
-#     # print(result)
-#     if question == '0':
-#         break
-
-loader = PyPDFLoader(path_to_file)
-documents = loader.load()
-print(f"vector_func{documents}")
-vectordb = Chroma.from_documents(
-  documents,
-  embedding=OpenAIEmbeddings(),
-  persist_directory='./data'
-)
-vectordb.persist()
-
-qa_chain = RetrievalQA.from_chain_type(
-    llm=OpenAI(),
-    retriever=vectordb.as_retriever(search_kwargs={'k': 7}),
-    return_source_documents=True
-)
+    return chunks
 
 
-while True:
-    question = input(f'>>> ')
-    # we can now execute queries against our Q&A chain
-    result = qa_chain({'query': question})
-    print(result['result'])
-    print(result)
-    if question == '0':
-        break
+def get_conversation_chain(user_question, context) -> str:
+
+    embeddings = OpenAIEmbeddings()
+    vectorstore = FAISS.from_texts(texts=context, embedding=embeddings)
+
+    llm = ChatOpenAI(model='gpt-3.5-turbo')
+    memory = ConversationBufferMemory(
+        memory_key='chat_history', return_messages=True)
+    conversation_chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=vectorstore.as_retriever(),
+        memory=memory,
+    )
+
+    response = conversation_chain({'question': user_question})
+    chat_history = response['chat_history']
+
+    # for separate question/answer items
+    response_dict = {'user_messages': [], 'bot_messages': []}
+
+    for i, message in enumerate(chat_history):
+        if i % 2 == 0:
+            response_dict['user_messages'].append(message.content)
+        else:
+            response_dict['bot_messages'].append(message.content)
+
+    return str(response_dict)
