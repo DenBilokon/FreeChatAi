@@ -5,22 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c66279d-13dd-4090-89c2-83bbb0684566" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/repository/chat_history.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/chats.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/chat_history.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/schemas/chat_history_schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/schemas/chat_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/logout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/signup.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/conf/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/conf/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/conf/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/conf/messages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/admin_panel/admin_panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/admin_panel/admin_panel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/c0ae8fb6-86d9-4a5a-a3d0-8059000a5630/length.bin" beforeDir="false" afterPath="$PROJECT_DIR$/data/c0ae8fb6-86d9-4a5a-a3d0-8059000a5630/length.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/chroma.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/chroma.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/doc_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/doc_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/vector_doc_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/vector_doc_ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,12 +57,13 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging sanyavas",
-    "last_opened_file_path": "C:/PycharmProjects/ds_ChatDocAI/FreeChatAi"
+    "git-widget-placeholder": "sanyavas",
+    "last_opened_file_path": "C:/PycharmProjects/ds_ChatDocAI/FreeChatAi/templates"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\PycharmProjects\ds_ChatDocAI\FreeChatAi\templates" />
       <recent name="C:\PycharmProjects\ds_ChatDocAI\FreeChatAi\static\img" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
